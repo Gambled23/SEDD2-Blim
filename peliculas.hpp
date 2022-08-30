@@ -22,8 +22,8 @@ public:
     string duracion;
     string ano;
     void agregar();
-    void imprimir();  // TODO
-    void buscar();    // TODO
+    void imprimir();  
+    void buscar();    
     void modificar(); // TODO
     void eliminar();  // TODO
     void guardar(peliculas);
