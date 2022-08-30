@@ -1,8 +1,9 @@
 #ifndef PELICULAS_H
 #define PELICULAS_H
 #include <iostream>
-#include <cstdlib>
 #include <fstream>
+#include <sstream>
+#include <cstdlib>
 #include <string>
 
 #pragma once
@@ -26,6 +27,7 @@ public:
     void modificar(); // TODO
     void eliminar();  // TODO
     void guardar(peliculas);
+    string obtenerCadena(peliculas);
 
 private:
 };
@@ -44,7 +46,7 @@ void peliculas::agregar()
     cin >> peliAux->director;
     cout << "Ingresa la categoria de la pelicula\n";
     cin >> peliAux->categoria;
-    cout << "Ingresa la duracion de la pelicula\n";
+    cout << "Ingresa la duracion de la pelicula(en minutos)\n";
     cin >> peliAux->duracion;
     cout << "Ingresa el ano de la pelicula\n";
     cin >> peliAux->ano;
@@ -56,7 +58,59 @@ void peliculas::agregar()
 }
 void peliculas::imprimir()
 {
-    
+    peliculas peliAux;
+    string registro, campo;
+    int aux;
+    ifstream archivoLista;
+    archivoLista.open("peliculas.txt", ios::in);
+    string cadena = obtenerCadena(peliAux);
+    stringstream cadenaStream(cadena);
+    while (getline(cadenaStream, registro, '*'))
+    {
+        cout << "-----------------------\n";
+        aux = 1;
+        stringstream registroStream(registro);
+        while (getline(registroStream, campo, '|'))
+        {
+            switch (aux)
+            {
+            case 1:
+                cout << "Pelicula: " << campo << endl;
+                break;
+            case 2:
+                cout << "Director: " << campo << endl;
+                break;
+            case 3:
+                cout << "Categoria: " << campo << endl;
+                break;
+            case 4:
+                cout << "Minutos de duracion: " << campo << endl;
+                break;
+            case 5:
+                cout << "Ano: " << campo << endl;
+                break;
+            case 6:
+                cout << "Idioma: " << campo << endl;
+                break;
+            case 7:
+                if (campo == "1")
+                {
+                    cout << "Cuenta con subtitulos: Si\n";
+                }
+                else
+                {
+                    cout << "Cuenta con subtitulos: No\n";
+                }
+                break;
+            default:
+                break;
+            }
+            aux++;
+        }
+        cout << "-----------------------\n\n";
+    }
+    cout << "Los datos han sido cargados exitosamente" << endl;
+    archivoLista.close();
 }
 void peliculas::buscar()
 {
@@ -68,6 +122,19 @@ void peliculas::eliminar()
 {
 }
 void peliculas::guardar(peliculas peliAux)
+{
+    string cadena = obtenerCadena(peliAux);
+    // Escribir nuevo contenido en archivo
+    ofstream archivoEscritura;
+    archivoEscritura.open("peliculas.txt", ios::out);
+    if (archivoEscritura.fail()) // True/false, si hubo error se da mensaje
+    {
+        cout << "No se pudo abrir el archivo";
+        exit(1); // Salir del programa
+    }
+    archivoEscritura << cadena;
+}
+string peliculas::obtenerCadena(peliculas peliAux)
 {
     string cadena;
     // Leer contenido actual archivo
@@ -82,17 +149,12 @@ void peliculas::guardar(peliculas peliAux)
     {
         getline(archivoLectura, cadena); // Guarda todo el contenido del archivo en cadena
     }
-    cadena = cadena + peliAux.titulo + "|" + peliAux.director + "|" + peliAux.categoria + "|" + peliAux.duracion + "|" + peliAux.ano + "|" + peliAux.idioma + "|" + peliAux.subtitulo + "*";
-    archivoLectura.close();
-    // Escribir nuevo contenido en archivo
-    ofstream archivoEscritura;
-    archivoEscritura.open("peliculas.txt", ios::out);
-    if (archivoEscritura.fail()) // True/false, si hubo error se da mensaje
+    if (peliAux.titulo != "")
     {
-        cout << "No se pudo abrir el archivo";
-        exit(1); // Salir del programa
+        cadena = cadena + peliAux.titulo + "|" + peliAux.director + "|" + peliAux.categoria + "|" + peliAux.duracion + "|" + peliAux.ano + "|" + peliAux.idioma + "|" + peliAux.subtitulo + "*";
     }
-    archivoEscritura << cadena;
+    archivoLectura.close();
+    return cadena;
 }
 
 #endif
