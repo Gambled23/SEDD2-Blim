@@ -8,6 +8,7 @@ using namespace std;
 int main()
 {
     int opc;
+    string pelicula;
     peliculas peli;
 
     cout << "Bienvenido a nuestra platafroma\nElige una opcion para continuar\n";
@@ -30,7 +31,9 @@ int main()
         peli.modificar();
         break;
     case 5:
-        peli.eliminar();
+        cout << "Ingrese el nombre de la pelicula a eliminar: ";
+        cin >> pelicula;
+        peli.eliminar(pelicula);
         break;
     }
     system("pause");

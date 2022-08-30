@@ -22,12 +22,13 @@ public:
     string duracion;
     string ano;
     void agregar();
-    void imprimir();  
-    void buscar();    
+    void imprimir();
+    void buscar();
     void modificar(); // TODO
-    void eliminar();  // TODO
+    void eliminar(string);
     void guardar(peliculas);
     string obtenerCadena(peliculas);
+    void vaciarArchivo();
 
 private:
 };
@@ -171,9 +172,102 @@ void peliculas::buscar()
 
 void peliculas::modificar()
 {
+    peliculas peliAux;
+    string cadena = obtenerCadena(peliAux); // Guarda todo el contenido de el archivo en la string cadena
+
+    string pelicula, registro, campo;
+    string titulo, director, categoria, duracion, ano, idioma, subtitulos;
+    int aux;
+    cout << "Ingrese el nombre de la pelicula a modificar: ";
+    cin >> pelicula;
+    stringstream cadenaStream(cadena);
+    while (getline(cadenaStream, registro, '*'))
+    {
+        aux = 1;
+        stringstream registroStream(registro);
+        getline(registroStream, campo, '|');
+        if (campo == pelicula)
+        {
+            cout << "Ingrese el nuevo titulo: ";
+            cin >> titulo;
+            while (getline(registroStream, campo, '|'))
+            {
+                switch (aux)
+                {
+                case 1:
+                    cout << "Ingrese el nuevo director: ";
+                    cin >> director;
+                    break;
+                case 2:
+                    cout << "Ingrese la nueva categoria: ";
+                    cin >> categoria;
+                    break;
+                case 3:
+                    cout << "Ingrese la nueva duracion: ";
+                    cin >> duracion;
+                    break;
+                case 4:
+                    cout << "Ingrese el nuevo ano de estreno: ";
+                    cin >> ano;
+                    break;
+                case 5:
+                    cout << "Ingrese el nuevo idioma: ";
+                    cin >> idioma;
+                    break;
+                case 6:
+                    cout << "Cuenta con subtitulos? 1)Si 0)No: ";
+                    cin >> subtitulo;
+                    break;
+                default:
+                    break;
+                }
+                aux++;
+            }
+        }
+    }
+    ofstream archivoEscritura;
+    archivoEscritura.open("peliculas.txt", ios::out);
+    if (archivoEscritura.fail()) // True/false, si hubo error se da mensaje
+    {
+        cout << "No se pudo abrir el archivo";
+        exit(1); // Salir del programa
+    }
+    cadena = cadena + titulo + "|" + director + "|" + categoria + "|" + duracion + "|" + ano + "|" + idioma + "|" + subtitulo + "*";
+    archivoEscritura << cadena;
+    archivoEscritura.close();
+    eliminar(pelicula);
 }
-void peliculas::eliminar()
+
+void peliculas::eliminar(string pelicula)
 {
+    peliculas peliAux;
+    string cadena = obtenerCadena(peliAux); // Guarda todo el contenido de el archivo en la string cadena
+
+    string registro, campo, cadenaNueva = "";
+    string titulo, director, categoria, duracion, ano, idioma, subtitulos;
+    int aux;
+    stringstream cadenaStream(cadena);
+    while (getline(cadenaStream, registro, '*'))
+    {
+        aux = 1;
+        stringstream registroStream(registro);
+        getline(registroStream, campo, '|');
+        if (campo != pelicula)
+        {
+            cadenaNueva = cadenaNueva + registro + "*";
+        }
+    }
+    vaciarArchivo();
+    ofstream archivoEscritura;
+    archivoEscritura.open("peliculas.txt", ios::out);
+    if (archivoEscritura.fail()) // True/false, si hubo error se da mensaje
+    {
+        cout << "No se pudo abrir el archivo";
+        exit(1); // Salir del programa
+    }
+    archivoEscritura << cadenaNueva;
+    archivoEscritura.close();
+    cout << "La pelicula ha sido eliminada\n";
 }
 void peliculas::guardar(peliculas peliAux)
 {
@@ -187,6 +281,7 @@ void peliculas::guardar(peliculas peliAux)
         exit(1); // Salir del programa
     }
     archivoEscritura << cadena;
+    archivoEscritura.close();
 }
 string peliculas::obtenerCadena(peliculas peliAux)
 {
@@ -211,4 +306,10 @@ string peliculas::obtenerCadena(peliculas peliAux)
     return cadena;
 }
 
+void peliculas::vaciarArchivo()
+{
+    ofstream archivoLista;
+    archivoLista.open("peliculas.txt", std::ofstream::out | std::ofstream::trunc);
+    archivoLista.close();
+}
 #endif
