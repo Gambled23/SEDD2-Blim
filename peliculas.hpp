@@ -63,7 +63,7 @@ void peliculas::imprimir()
     int aux;
     ifstream archivoLista;
     archivoLista.open("peliculas.txt", ios::in);
-    string cadena = obtenerCadena(peliAux);
+    string cadena = obtenerCadena(peliAux); // Guarda todo el contenido de el archivo en la string cadena
     stringstream cadenaStream(cadena);
     while (getline(cadenaStream, registro, '*'))
     {
@@ -114,7 +114,61 @@ void peliculas::imprimir()
 }
 void peliculas::buscar()
 {
+    peliculas peliAux;
+    string cadena = obtenerCadena(peliAux); // Guarda todo el contenido de el archivo en la string cadena
+
+    string pelicula, registro, campo;
+    int aux;
+    cout << "Ingrese el nombre de la pelicula a buscar: ";
+    cin >> pelicula;
+    stringstream cadenaStream(cadena);
+    while (getline(cadenaStream, registro, '*'))
+    {
+        cout << "-----------------------\n";
+        aux = 1;
+        stringstream registroStream(registro);
+        getline(registroStream, campo, '|');
+        if (campo == pelicula)
+        {
+            cout << "Pelicula: " << campo << endl;
+            while (getline(registroStream, campo, '|'))
+            {
+                switch (aux)
+                {
+                case 1:
+                    cout << "Director: " << campo << endl;
+                    break;
+                case 2:
+                    cout << "Categoria: " << campo << endl;
+                    break;
+                case 3:
+                    cout << "Minutos de duracion: " << campo << endl;
+                    break;
+                case 4:
+                    cout << "Ano:" << campo << endl;
+                    break;
+                case 5:
+                    cout << "Idioma: " << campo << endl;
+                    break;
+                case 6:
+                    if (campo == "1")
+                    {
+                        cout << "Cuenta con subtitulos: Si\n";
+                    }
+                    else
+                    {
+                        cout << "Cuenta con subtitulos: No\n";
+                    }
+                    break;
+                default:
+                    break;
+                }
+                aux++;
+            }
+        }
+    }
 }
+
 void peliculas::modificar()
 {
 }
