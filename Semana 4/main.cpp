@@ -15,14 +15,14 @@ void menu()
     int opc = 1;
     while (opc)
     {
-        cout<<"Bienvenido al sistema para manejo de usuarios\n";
-        cout<<"0) Salir \n";
-        cout<<"1) Agregar\n";
-        cout<<"2) Imprimir\n";
-        cout<<"3) Buscar\n";
-        cout<<"4) Modificar\n";
-        cout<<"5) Eliminar\n";
-        cin >>opc;
+        cout << "Bienvenido al sistema para manejo de usuarios\n";
+        cout << "0) Salir \n";
+        cout << "1) Agregar\n";   // TODO
+        cout << "2) Imprimir\n";  // TODO
+        cout << "3) Buscar\n";    // TODO
+        cout << "4) Modificar\n"; // TODO
+        cout << "5) Eliminar\n";  // TODO
+        cin >> opc;
         switch (opc)
         {
         case 1:
@@ -41,10 +41,10 @@ void menu()
             usuar.eliminar();
             break;
         case 0:
-            cout<<"Gracias por su preferencia\n";
+            cout << "Gracias por su preferencia\n";
             break;
         default:
-            cout<<"Opcion invalida\n";
+            cout << "Opcion invalida\n";
             break;
         }
         system("pause");
