@@ -21,9 +21,8 @@ public:
     void buscar();
     void modificar();
     void eliminar();
-private:
 
-};
+}usuar;
 
 Usuarios::Usuarios()
 {
