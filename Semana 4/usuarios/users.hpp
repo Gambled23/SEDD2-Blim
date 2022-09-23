@@ -49,38 +49,10 @@ void users::Mostrar()
     }
     else
     {
-        cout << "Ingrese usuario\n";
-        cin.getline(usuario2, 10);
-        cout << "Ingrese contrasena\n";
-        cin.getline(password2, 10);
         while (!a.eof())
         {
             a.read((char *)&datos, sizeof(datos));
-            if (a.eof())
-            {
-                break;
-            }
-            if (strcmp(usuario, usuario2) == 0 && strcmp(password, password2) == 0)
-            {
-                int opc;
-                cout << "\n NOMBRE: " << nombre;
-                band = 1;
-                cout << "\n DESEA CAMBIAR LA CONTRASENA? \n 1.-Si 2. - No\n ";
-                cin >> opc;
-                if (opc == 1)
-                {
-                    Modificar();
-                }
-                else
-                {
-                    cout << "Regresando a menu anterior\n";
-                    break;
-                }
-            }
-        }
-        if (band == 0)
-        {
-            cout << "Usuario o contrasena erronea\n";
+            cout<<datos.nombre;
         }
         a.close();
     }
